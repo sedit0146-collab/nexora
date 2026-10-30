@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexora - Free Online Tools</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1220;color:#f1f5f9;font-family:Arial,sans-serif}
+header{padding:22px 7%;background:#111d30;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:28px;font-weight:bold;color:#54e6a5}
+header span{color:white}
+.hero{text-align:center;padding:65px 20px 35px}
+.hero h1{font-size:clamp(32px,6vw,52px);margin:0}
+.hero h1 b{color:#54e6a5}
+.hero p{color:#aab8ca}
+input,textarea{width:100%;padding:13px;margin:7px 0;background:#0b1728;color:white;border:1px solid #34445b;border-radius:9px;font-size:16px}
+#search{max-width:500px}
+main{max-width:1050px;margin:auto;padding:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.card{background:#152338;border:1px solid #2b3d55;border-radius:15px;padding:20px}
+.card h2{font-size:19px;margin-top:0}
+.card p{color:#aab8ca;font-size:14px}
+button{background:#54e6a5;color:#062016;border:0;border-radius:8px;padding:11px 15px;font-weight:bold;cursor:pointer}
+.result{color:#54e6a5;overflow-wrap:anywhere;margin-top:12px;min-height:20px}
+footer{text-align:center;padding:35px;color:#aab8ca}
+</style>
+</head>
+<body>
+<header><div class="logo">NEXORA<span>.</span></div><span>Free Online Tools</span></header>
+<section class="hero">
+<h1>Useful tools, <b>one destination.</b></h1>
+<p>Simple, fast and free tools for everyone.</p>
+<input id="search" placeholder="Search for a tool..." oninput="searchTools()">
+</section>
+<main>
+<div class="grid" id="tools">
+
+<div class="card" data-name="calculator">
+<h2>🧮 Calculator</h2><p>Calculate two numbers.</p>
+<input id="a" type="number" placeholder="First number">
+<input id="b" type="number" placeholder="Second number">
+<button onclick="calc('+')">Add +</button>
+<button onclick="calc('-')">Subtract −</button>
+<button onclick="calc('*')">Multiply ×</button>
+<button onclick="calc('/')">Divide ÷</button>
+<div class="result" id="calcResult"></div>
+</div>
+
+<div class="card" data-name="word counter">
+<h2>📝 Word Counter</h2><p>Count words and characters.</p>
+<textarea id="text" placeholder="Write something..." oninput="countWords()"></textarea>
+<div class="result" id="wordResult">0 words · 0 characters</div>
+</div>
+
+<div class="card" data-name="percentage calculator">
+<h2>％ Percentage Calculator</h2><p>Calculate a percentage of a number.</p>
+<input id="pct" type="number" placeholder="Percentage">
+<input id="num" type="number" placeholder="Number">
+<button onclick="percentage()">Calculate</button>
+<div class="result" id="pctResult"></div>
+</div>
+
+<div class="card" data-name="age calculator">
+<h2>🎂 Age Calculator</h2><p>Calculate your age.</p>
+<input id="birth" type="date">
+<button onclick="ageCalc()">Calculate age</button>
+<div class="result" id="ageResult"></div>
+</div>
+
+<div class="card" data-name="discount calculator">
+<h2>🏷️ Discount Calculator</h2><p>Find the price after a discount.</p>
+<input id="price" type="number" placeholder="Original price">
+<input id="discount" type="number" placeholder="Discount %">
+<button onclick="discountCalc()">Calculate</button>
+<div class="result" id="discountResult"></div>
+</div>
+
+<div class="card" data-name="temperature converter">
+<h2>🌡️ Temperature Converter</h2><p>Convert Celsius to Fahrenheit.</p>
+<input id="celsius" type="number" placeholder="Temperature in Celsius">
+<button onclick="convertTemp()">Convert</button>
+<div class="result" id="tempResult"></div>
+</div>
+
+<div class="card" data-name="password generator">
+<h2>🔐 Password Generator</h2><p>Create a random password.</p>
+<button onclick="makePassword()">Generate password</button>
+<div class="result" id="passResult"></div>
+</div>
+
+<div class="card" data-name="random number generator">
+<h2>🎲 Random Number</h2><p>Generate a number from 1 to 100.</p>
+<button onclick="randomNumber()">Generate</button>
+<div class="result" id="randomResult"></div>
+</div>
+
+</div>
+</main>
+<footer>© <span id="year"></span> Nexora · Useful tools for everyone.</footer>
+<script>
+function calc(op){
+let a=Number(document.getElementById('a').value);
+let b=Number(document.getElementById('b').value);
+if(document.getElementById('a').value===''||document.getElementById('b').value===''){document.getElementById('calcResult').textContent='Enter both numbers.';return}
+if(op==='/'&&b===0){document.getElementById('calcResult').textContent='Cannot divide by zero.';return}
+let r=op==='+'?a+b:op==='-'?a-b:op==='*'?a*b:a/b;
+document.getElementById('calcResult').textContent='Answer: '+r;
+}
+function countWords(){
+let s=document.getElementById('text').value;
+let w=s.trim()?s.trim().split(/\s+/).length:0;
+document.getElementById('wordResult').textContent=w+' words · '+s.length+' characters';
+}
+function percentage(){
+let p=document.getElementById('pct').value,n=document.getElementById('num').value;
+if(p===''||n===''){document.getElementById('pctResult').textContent='Enter both values.';return}
+document.getElementById('pctResult').textContent=(Number(p)*Number(n)/100);
+}
+function ageCalc(){
+let v=document.getElementById('birth').value;
+if(!v){document.getElementById('ageResult').textContent='Choose your birth date.';return}
+let d=new Date(v+'T00:00:00'),t=new Date();
+if(d>t){document.getElementById('ageResult').textContent='Choose a past date.';return}
+let y=t.getFullYear()-d.getFullYear();
+if(t.getMonth()<d.getMonth()||(t.getMonth()===d.getMonth()&&t.getDate()<d.getDate()))y--;
+document.getElementById('ageResult').textContent='Your age is '+y+' years.';
+}
+function discountCalc(){
+let p=document.getElementById('price').value,d=document.getElementById('discount').value;
+if(p===''||d===''||Number(p)<0||Number(d)<0||Number(d)>100){document.getElementById('discountResult').textContent='Enter valid values.';return}
+document.getElementById('discountResult').textContent='Final price: '+(p*(1-d/100)).toFixed(2);
+}
+function convertTemp(){
+let v=document.getElementById('celsius').value;
+if(v===''){document.getElementById('tempResult').textContent='Enter a temperature.';return}
+document.getElementById('tempResult').textContent=(Number(v)*9/5+32).toFixed(2)+' °F';
+}
+function makePassword(){
+let chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%';
+let p='';
+for(let i=0;i<14;i++)p+=chars[Math.floor(Math.random()*chars.length)];
+document.getElementById('passResult').textContent=p;
+}
+function randomNumber(){document.getElementById('randomResult').textContent=Math.floor(Math.random()*100)+1}
+function searchTools(){
+let q=document.getElementById('search').value.toLowerCase();
+document.querySelectorAll('.card').forEach(c=>c.style.display=c.dataset.name.includes(q)?'block':'none');
+}
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
